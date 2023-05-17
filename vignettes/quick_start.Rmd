@@ -1,0 +1,29 @@
+---
+title: "Quick start"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+# bibliography: "example.bib"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Quick start}
+---
+
+```{r, message=FALSE}
+library(gsdcut)
+```
+
+# Cut by events
+```{r}
+e <- gsdcut::ByEvent$new(event = c(100, 200, 300))
+
+e |> summary()
+```
+
+
+# References
