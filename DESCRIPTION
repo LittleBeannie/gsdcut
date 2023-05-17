@@ -7,7 +7,8 @@ Authors@R: c(
     )
 Description: The goal of 'gsdcut' is to offer multiple cutting strategies in group sequential designs.
 License: GPL-3
-URL: https://github.com/littlebeannie/gsdcut
+URL: https://github.com/littlebeannie/gsdcut,
+    https://littlebeannie.github.io/gsdcut/
 BugReports: https://github.com/littlebeannie/gsdcut/issues
 Encoding: UTF-8
 VignetteBuilder:
