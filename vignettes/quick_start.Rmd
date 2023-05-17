@@ -16,14 +16,72 @@ vignette: >
 
 ```{r, message=FALSE}
 library(gsdcut)
+library(tibble)
 ```
 
-# Cut by events
+```{r}
+my_tte <- simtrial::simPWSurv(
+   n = 800,
+   strata = tibble(Stratum = c("Positive", "Negative"),
+                   p = c(.5, .5)),
+   failRates = tibble(Stratum = rep(c("Positive","Negative"), 2),
+                      period = rep(1, 4),
+                      Treatment = c(rep("Control", 2), rep("Experimental", 2)),
+                      duration = rep(1, 4),
+                      rate = log(2) / c(6, 9, 9, 12)),
+   dropoutRates = tibble(Stratum = rep(c("Positive", "Negative"),2),
+                         period = rep(1, 4),
+                         Treatment = c(rep("Control", 2), rep("Experimental", 2)),
+                         duration = rep(1, 4),
+                         rate = rep(.001, 4)))
+```
+
+
+# Cut by a single strategy
+
+## Events
 ```{r}
 e <- gsdcut::ByEvent$new(event = c(100, 200, 300))
 
 e |> summary()
+
+e |> get_cut_date(tte = my_tte)
 ```
 
+## Time
+```{r}
+t <- gsdcut::ByTime$new(time = c(10, 20, 30))
+
+t |> summary()
+
+t |> get_cut_date(tte = my_tte)
+```
+
+# Cut by a multiple strategies
+
+```{r}
+my_cut <- gsdcut::ByHybrid$new()
+my_cut
+```
+
+## Event + plannned total duration
+```{r}
+my_cut <- gsdcut::ByHybrid$new()
+
+my_cut$event <- c(100, 200, 300)
+my_cut$planned_total_duration <- 50
+
+my_cut |> get_cut_date(my_tte)
+```
+
+## Event + minimal follow-up
+```{r, eval=FALSE}
+my_cut <- gsdcut::ByHybrid$new()
+
+my_cut$event <- c(100, 200, 300)
+my_cut$min_followup <- 20
+
+my_cut |> get_cut_date(my_tte)
+```
 
 # References

@@ -12,6 +12,7 @@ The goal of 'gsdcut' is to offer multiple cutting strategies in group sequential
 Useful links:
 \itemize{
   \item \url{https://github.com/littlebeannie/gsdcut}
+  \item \url{https://littlebeannie.github.io/gsdcut/}
   \item Report bugs at \url{https://github.com/littlebeannie/gsdcut/issues}
 }
 

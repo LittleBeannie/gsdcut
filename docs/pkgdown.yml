@@ -3,5 +3,8 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   quick_start: quick_start.html
-last_built: 2023-05-17T20:22Z
+last_built: 2023-05-17T22:07Z
+urls:
+  reference: https://littlebeannie.github.io/gsdcut/reference
+  article: https://littlebeannie.github.io/gsdcut/articles
 
