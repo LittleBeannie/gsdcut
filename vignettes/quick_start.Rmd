@@ -84,4 +84,19 @@ my_cut$min_followup <- 20
 my_cut |> get_cut_date(my_tte)
 ```
 
+
+# Alternative way
+
+```{r, eval=FALSE}
+my_cut <- gsdcut::Cut$new()
+
+my_cut$event <- c(100, 200, 300)
+my_cut$time <- c(10, 20, 30)
+my_cut$planned_total_duration <- 50
+my_cut$min_followup <- 20
+
+my_cut |> get_cut_date(my_tte)
+```
+
+
 # References
