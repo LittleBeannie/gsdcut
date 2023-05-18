@@ -17,10 +17,11 @@ vignette: >
 ```{r, message=FALSE}
 library(gsdcut)
 library(tibble)
+library(simtrial)
 ```
 
 ```{r}
-my_tte <- simtrial::simPWSurv(
+my_tte <- simPWSurv(
    n = 800,
    strata = tibble(Stratum = c("Positive", "Negative"),
                    p = c(.5, .5)),
