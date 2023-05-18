@@ -54,7 +54,7 @@ get_cut_date.ByHybrid <- function(y, tte, ...) {
     }))
     # if the event-based final analysis is longer than planned duration, take the former. 
     if(ans[n_analysis] < y$planned_total_duration){
-      ans[n_analysis] <- planned_total_duration
+      ans[n_analysis] <- y$planned_total_duration
     }
     
   # cut by max(minimum follow-up, targeted events)

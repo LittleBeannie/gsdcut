@@ -1,6 +1,6 @@
 Package: gsdcut
 Title: Group sequential design with tidy programming grammar.
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person("Yujie", "Zhao", email = "yujie.zhao@merck.com", role = c("aut", "cre")),
     person("Merck & Co., Inc., Rahway, NJ, USA and its affiliates", role = "cph")
