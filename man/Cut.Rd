@@ -11,10 +11,22 @@ Cut class
 \details{
 A class for cuttings in group sequantial designs.
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{time}}{planned duration cutoff}
+
+\item{\code{event}}{target events to cut the interim/final analysis.}
+
+\item{\code{min_followup}}{minimum follow-up duration}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Cut-validate}{\code{Cut$validate()}}
+\item \href{#method-Cut-new}{\code{Cut$new()}}
 \item \href{#method-Cut-summary}{\code{Cut$summary()}}
 \item \href{#method-Cut-clone}{\code{Cut$clone()}}
 }
@@ -28,6 +40,30 @@ Validate input parameters.
 \if{html}{\out{<div class="r">}}\preformatted{Cut$validate()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Cut-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Cut-new}{}}}
+\subsection{Method \code{new()}}{
+Create a new exponential distribution object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Cut$new(time, event, min_followup)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{time}}{calendar time to cut the interim/final analysis.}
+
+\item{\code{event}}{target events to cut the interim/final analysis.}
+
+\item{\code{min_followup}}{minimum follow-up duration}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new \code{Cut} object.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Cut-summary"></a>}}

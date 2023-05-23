@@ -11,65 +11,35 @@ get_cut_date <- function(y, ...) {
 }
 
 #' @export
-get_cut_date.ByEvent <- function(y, tte, ...) {
-  n_analysis <- length(y$event)
-  ans <- do.call(c, lapply(seq_along(y$event), function(i){
-    cut_date <- simtrial::getCutDateForCount(x = tte, count = y$event[i])
-  }))
-  return(ans)
-}
-
-#' @export
-get_cut_date.ByTime <- function(y, tte, ...) {
-  return(y$time)
-}
-
-#' @export
-get_cut_date.ByHybrid <- function(y, tte, ...) {
+get_cut_date <- function(y, cut_class, ...) {
   
-  flag_planned_total_duration <- !is.null(y$planned_total_duration)
-  flag_time <- !is.null(y$time)
-  flag_event <- !is.null(y$event)
-  flag_min_followup <- !is.null(y$min_followup)
+  input_time <- !is.null(cut_class$time)
+  input_event <- !is.null(cut_class$event)
+  input_min_followup <- !is.null(cut_class$min_followup)
   
-  # cut only by targeted events
-  if(flag_event & flag_planned_total_duration + flag_time + flag_min_followup == 0){
-    n_analysis <- length(y$event)
-    ans <- do.call(c, lapply(seq_along(y$event), function(i){
-      cut_date <- simtrial::getCutDateForCount(x = tte, count = y$event[i])
-      return(cut_date)
-    }))
+  ans <- NULL
+  # cut by planned duration
+  if(input_time == 1 & input_event + input_min_followup == 0){
+    ans <- cut_class$time
     
-  # cut only by calendar time
-  }else if(flag_time & flag_planned_total_duration + flag_event + flag_min_followup == 0){
-    ans <- y$time
+  # cut by targeted events
+  } else if (input_event == 1 & input_time + input_min_followup == 0){
+    ans <- simtrial::getCutDateForCount(x = y, count = cut_class$event)
     
-  # cut by max(planned duration, targeted event)
-  }else if(flag_planned_total_duration + flag_event == 2 & flag_time + flag_min_followup == 0){
-    # get the cut date by targeted events
-    n_analysis <- length(y$event)
-    ans <- do.call(c, lapply(1:n_analysis, function(i){
-      cut_date <- simtrial::getCutDateForCount(x = tte, count = y$event[i])
-      return(cut_date)
-    }))
-    # if the event-based final analysis is longer than planned duration, take the former. 
-    if(ans[n_analysis] < y$planned_total_duration){
-      ans[n_analysis] <- y$planned_total_duration
-    }
+  # cut by minimal follow-up
+  } else if(input_min_followup == 1 & input_time + input_event == 0){
+    ans <- enroll_time + cut_class$min_followup
     
-  # cut by max(minimum follow-up, targeted events)
-  }else if(flag_min_followup + flag_event == 2 & flag_time + flag_planned_total_duration == 0){
-    # get the cut date by targeted events
-    n_analysis <- length(y$event)
-    ans <- do.call(c, lapply(1:n_analysis, function(i){
-      cut_date <- simtrial::getCutDateForCount(x = tte, count = y$event[i])
-      return(cut_date)
-    }))
-    # if the event-based final analysis is longer than min follow up, take the former. 
-    if(ans[n_analysis] < y$planned_total_duration){
-      ans[n_analysis] <- enroll_time + min_followup
-    }
+  # cut by max of planned duration, targeted events
+  } else if(input_event + input_time == 2 & input_min_followup == 0){
+    date_by_event <- simtrial::getCutDateForCount(x = y, count = cut_class$event)
+    ans <- max(date_by_event, cut_class$time)
+    
+  # cut by max of minimum follow-up, targeted events
+  } else if(input_min_followup + input_event == 2 & input_time == 0){
+    min_followup_enroll <- enroll_time + cut_class$min_followup
+    date_by_event <- simtrial::getCutDateForCount(x = y, count = cut_class$event)
+    ans <- max(min_followup_enroll, date_by_event)
   }
-  
   return(ans)
 }

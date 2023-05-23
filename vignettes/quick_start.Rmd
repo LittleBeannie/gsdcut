@@ -20,7 +20,9 @@ library(tibble)
 library(simtrial)
 ```
 
+# Simulate TTE data
 ```{r}
+set.seed(123)
 my_tte <- simPWSurv(
    n = 800,
    strata = tibble(Stratum = c("Positive", "Negative"),
@@ -37,67 +39,48 @@ my_tte <- simPWSurv(
                          rate = rep(.001, 4)))
 ```
 
-
-# Cut by a single strategy
-
-## Events
+# Build R6 class for `Cut`
 ```{r}
-e <- gsdcut::ByEvent$new(event = c(100, 200, 300))
+# cut by targeted events
+cut1 <- gsdcut::Cut$new(event = 100)
+cut1 |> summary()
 
-e |> summary()
+# cut by planned duration
+cut2 <- gsdcut::Cut$new(time = 16)
+cut2 |> summary()
 
-e |> get_cut_date(tte = my_tte)
+# cut by minimal follow-up
+cut3 <- gsdcut::Cut$new(min_followup = 12)
+cut3 |> summary()
+
+# cut by max of planned duration, targeted events
+cut4 <- gsdcut::Cut$new(time = 12, event = 100)
+cut4 |> summary()
+
+# cut by max of minimum follow-up, targeted events
+cut5 <- gsdcut::Cut$new(min_followup = 13, event = 100)
+cut5 |> summary()
 ```
 
-## Time
+# Get cut dates
 ```{r}
-t <- gsdcut::ByTime$new(time = c(10, 20, 30))
+# cut by targeted events
+my_tte |> get_cut_date(cut_class = cut1)
 
-t |> summary()
+# cut by planned duration
+my_tte |> get_cut_date(cut_class = cut2)
 
-t |> get_cut_date(tte = my_tte)
-```
+# cut by minimal follow-up
+# my_tte |> get_cut_date(cut_class = cut1)
 
-# Cut by a multiple strategies
+# cut by max of planned duration, targeted events
+my_tte |> get_cut_date(cut_class = cut4)
 
-```{r}
-my_cut <- gsdcut::ByHybrid$new()
-my_cut
-```
-
-## Event + plannned total duration
-```{r}
-my_cut <- gsdcut::ByHybrid$new()
-
-my_cut$event <- c(100, 200, 300)
-my_cut$planned_total_duration <- 50
-
-my_cut |> get_cut_date(my_tte)
-```
-
-## Event + minimal follow-up
-```{r, eval=FALSE}
-my_cut <- gsdcut::ByHybrid$new()
-
-my_cut$event <- c(100, 200, 300)
-my_cut$min_followup <- 20
-
-my_cut |> get_cut_date(my_tte)
+# cut by max of minimum follow-up, targeted events
+# my_tte |> get_cut_date(cut_class = cut5)
 ```
 
 
-# Alternative way
-
-```{r, eval=FALSE}
-my_cut <- gsdcut::Cut$new()
-
-my_cut$event <- c(100, 200, 300)
-my_cut$time <- c(10, 20, 30)
-my_cut$planned_total_duration <- 50
-my_cut$min_followup <- 20
-
-my_cut |> get_cut_date(my_tte)
-```
 
 
 # References

@@ -4,7 +4,7 @@
 \alias{get_cut_date}
 \title{Simulate stratified time-to-event outcome randomized trial}
 \usage{
-get_cut_date(y, ...)
+get_cut_date(y, cut_class, ...)
 }
 \arguments{
 \item{...}{Additional arguments (not used).}
